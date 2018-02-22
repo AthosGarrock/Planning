@@ -1,0 +1,121 @@
+<?php 
+
+	session_start();
+
+	require('../autoload.php');
+	require('../arrayFunctions.php');
+
+	$dem = new DayEntryManager();
+	$em = new EntryManager();
+	$wm = new WeekManager();
+	$cm = new CategoryManager();
+		
+	//Placeholders
+		$_SESSION['id'] = !empty($_SESSION['id'])?$_SESSION['id']:null;
+		$start = !empty($_POST['d_start'])?$_POST['d_start']:null;
+		$_POST['d_end'] = !empty($_POST['d_end'])?$_POST['d_end']:$start;
+
+		//Représente les indexes nécéssaires à la création d'une DayEntry.
+			$d_indexes = ["d_start", "d_end","theme"];
+
+			//Si rien n'a pu être effectué, message d'erreur.
+			$display = ["Hmmm, rien ne semble avoir ete trouve ici.", "error" => emptyPostCount($d_indexes)];
+
+
+	// POST REQUEST
+		//Supprime une entrée de la base.
+			if (!empty($_POST['delete'])) {
+				if ($_POST['delete'] == 'day') {
+					$dem->delete($_SESSION['id'], $_POST['d_start']);
+					$display = "Entree effacee.";
+				}
+			}
+
+		//Ajout d'entrée.
+			else if (emptyPostCount($d_indexes) == 0) {
+				$data = quickPost($d_indexes);
+				$data['account_id'] = $_SESSION['id'];
+
+
+				$d_entry = $dem->get($_SESSION['id'], $_POST['d_start']);
+
+				if (empty($d_entry)){
+					$d_entry = new DayEntry($data);
+					$dem->add($d_entry);
+					$ref = $dem->getLast($_SESSION['id'])['MAX(id)'];
+				} else {
+					$ref = $d_entry['id'];
+				}
+
+				$display = "Entree ajoutee.";
+
+				switch ($_POST['theme']) { 
+					case 'Mixte':
+						//Entrées "horaire"
+						if (!empty($_POST['activite'])) {
+							foreach ($_POST['activite'] as $key => $value) {
+								$activite = !empty($value)?$value:'Abs';
+								$end = date('', strtotime($_POST['e_start'][$key])+3600);
+
+								$e_entry = new Entry([	"de_fk" 	=> $ref,
+													 	"activite"	=> $activite,
+													 	"e_start"	=> $_POST['e_start'][$key],
+													 	"e_end" 	=> $end,
+													 	"content"	=> $_POST['content'][$key] ]);
+								$em->add($e_entry);
+							}
+						}
+
+
+						break;
+					case 'Stage':
+						//Ajoute une entrée semaine pour gérer avec précision les jours de travail.
+						$days = ['mon','tue','wed', 'thu', 'fri', 'sat', 'sun'];
+						$check = false;
+
+						$day_posts = [];
+						$day_posts['de_fk'] = $ref;
+						foreach ($days as $day) {
+							if (array_key_exists($day, $_POST)) {
+								$day_posts[$day] = true;
+							} else{
+								$day_posts[$day] = false;
+							}
+						}
+
+						$week = new Week($day_posts);
+						$wm->add($week);
+						break;
+				}
+			}
+
+
+
+	//GET REQUEST
+		if (!empty($_GET)) {
+			$display = [];
+			
+			if (!empty($_GET['e_id'])) {
+				$display['entry'] = $em->getAllByDay($_GET['e_id']);
+
+
+				foreach ($display['entry'] as $value) {
+					$display[$value['activite']]['color'] = $cm->get($value['activite'])['color'];
+					$value['content'] = strip_tags($value['content']);
+
+				}
+			}
+
+			if (!empty($_GET['attr'])){
+				$display['color'] = $cm->get($_GET['attr'])['color'];
+			}			
+		}
+
+
+		
+
+
+	//Permet d'afficher un retour en JSON.
+	echo json_encode($display);
+
+ ?>
