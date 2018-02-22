@@ -14,9 +14,10 @@ class DayEntryManager extends CoreManager
 
 	public function update(DayEntry $entry){
 		$sql = ('UPDATE day_entry SET theme = :theme WHERE account_id = :account_id AND d_start = :d_start ');
-		$values = [':account_id'	=> $entry->getAccountId(),
-					':d_start' 		=> $entry->getDStart() ];
-		$this->makeStatement();
+		$values = [	':account_id'	=> $entry->getAccountId(),
+					':d_start' 		=> $entry->getDStart(),
+					':theme'		=> $entry->getTheme() ];
+		$this->makeStatement($sql, $values);
 	}
 
 	public function get($account_id, $d_start){

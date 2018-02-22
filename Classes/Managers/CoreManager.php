@@ -8,8 +8,8 @@ abstract class CoreManager
 	public function __construct(){
 		if (empty(self::$_pdo)){
 			try{
-				self::$_pdo = new PDO('mysql:host=localhost;dbname=nouas_account;charset=utf8', 'nouas_BDD', 'fEr7S9nED3X47pC7', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-				// self::$_pdo = new PDO('mysql:host=localhost;dbname=planning;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+				// self::$_pdo = new PDO('mysql:host=localhost;dbname=nouas_account;charset=utf8', 'nouas_BDD', 'fEr7S9nED3X47pC7', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+				self::$_pdo = new PDO('mysql:host=localhost;dbname=planning;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
 			}
 			catch(Exception $e){

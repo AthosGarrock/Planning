@@ -29,7 +29,8 @@
 
     	$result = null;
     	foreach ($array as $value) {
-    		$result .= "<option>{$value['name']}</option>";
+    		$value = new Category($value);
+    		$result .= "<option value='{$value->getName()}'>{$value->getName(true)}</option>";
     	}
 
     	return $result;
@@ -47,7 +48,7 @@
 	<link rel="stylesheet" href="<?= ROOT ?>/Assets/style.css">
 	<link rel="stylesheet" href="<?= ROOT ?>/Assets/newNav.css">
 
-	<!-- <link rel="stylesheet" href="../css/font-awesome.css"> -->
+	<link rel="stylesheet" href="../css/font-awesome.css">
 
 	<!-- User-generated themes/types colors -->
 	<style>

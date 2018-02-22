@@ -15,7 +15,7 @@ $('.dates li:not(.mask)').click(function(){
 		$('.day-select').html(arrtest[3]+'/'+arrtest[2]+'/'+arrtest[1]);
 
 		if (typeof theme !== 'undefined') {
-			$('.theme_display').html(theme.toUpperCase());
+			$('.theme_display').html(theme.toUpperCase().replace(/_/g," "));
 			$('.delete.day-entry').show();
 			$('.btn-entry').html('Modifier le theme');
 		} else {
@@ -147,14 +147,12 @@ $('.dates li:not(.mask)').click(function(){
 					// $(div).css({backgroundColor: dGet[act]['color'], height:"100%", width:wth+'%', display:"inline-block"});
 					// $('#graph').append(div);
 	
-				})
-						
+				})					
 			} else {
 				$('#graph').hide()
 				let p = document.createElement('p');
 				$(p).html('Aucune information.')
 				$('#daydata').append(p); 
-
 			}
 		});
 

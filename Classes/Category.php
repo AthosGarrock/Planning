@@ -20,12 +20,18 @@ class Category
 
 
     /**
-     * @return mixed
+     * @return mixed. Replaces spaces without underscores if option is true.
      */
-    public function getName()
+    public function getName($opt = false)
     {
-        return $this->name;
+        if (!$opt) {
+            return $this->name;
+        }else{
+            return str_replace('_', ' ', $this->name);
+        }
+        
     }
+
 
     /**
      * @param mixed $name
@@ -34,7 +40,7 @@ class Category
      */
     public function setName($name)
     {
-        $this->name = strip_tags(trim($name));
+        $this->name = str_replace(' ', '_', strip_tags(trim($name)));
 
         return $this;
     }

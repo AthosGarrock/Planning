@@ -2,6 +2,12 @@
 
 	session_start();
 
+	//Si aucun user n'est connecté, vers la page de connexion.
+	if (empty($_SESSION['id'])) {
+		header('location: ../index.php/candidat');
+		exit();
+	}
+
 	require('../autoload.php');
 	require('../arrayFunctions.php');
 
@@ -11,7 +17,7 @@
 	$cm = new CategoryManager();
 		
 	//Placeholders
-		$_SESSION['id'] = !empty($_SESSION['id'])?$_SESSION['id']:null;
+
 		$start = !empty($_POST['d_start'])?$_POST['d_start']:null;
 		$_POST['d_end'] = !empty($_POST['d_end'])?$_POST['d_end']:$start;
 
@@ -23,7 +29,7 @@
 
 
 	// POST REQUEST
-		//Supprime une entrée de la base.
+		//[DELETE - DayEntry]Supprime une entrée de la base.
 			if (!empty($_POST['delete'])) {
 				if ($_POST['delete'] == 'day') {
 					$dem->delete($_SESSION['id'], $_POST['d_start']);
@@ -31,12 +37,12 @@
 				}
 			}
 
-		//Ajout d'entrée.
+		//[ADD/EDIT - DayEntry]Ajout d'entrée.
 			else if (emptyPostCount($d_indexes) == 0) {
 				$data = quickPost($d_indexes);
 				$data['account_id'] = $_SESSION['id'];
 
-
+				//[ADD]Vérifie qu'aucune entrée ne soit déjà présente. 
 				$d_entry = $dem->get($_SESSION['id'], $_POST['d_start']);
 
 				if (empty($d_entry)){
@@ -45,10 +51,15 @@
 					$ref = $dem->getLast($_SESSION['id'])['MAX(id)'];
 				} else {
 					$ref = $d_entry['id'];
+					//[EDIT]Modifie l'entrée si nécéssaire.
+					$d_entry = new DayEntry($d_entry);
+					$d_entry->setTheme($data['theme']);
+					$dem->update($d_entry);
 				}
 
-				$display = "Entree ajoutee.";
+				// $display = "Entree ajoutee.";
 
+				//[ADD - Entry]
 				switch ($_POST['theme']) { 
 					case 'Mixte':
 						//Entrées "horaire"
@@ -69,7 +80,7 @@
 
 						break;
 					case 'Stage':
-						//Ajoute une entrée semaine pour gérer avec précision les jours de travail.
+						//[WEEK]Ajoute une entrée semaine pour gérer avec précision les jours de travail.
 						$days = ['mon','tue','wed', 'thu', 'fri', 'sat', 'sun'];
 						$check = false;
 
