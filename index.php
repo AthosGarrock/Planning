@@ -144,9 +144,9 @@
 					<!-- placeholder counter - use PHP/JS-->
 					<h3>Activité :</h3>
 				
-					<div id="add">					
+					<div class="add">					
 						<label>De :</label>
-						<select>
+						<select name="e_start[]">
 							<optgroup label='Par demi-journée'>								
 								<option value="Matin">Matin</option>
 								<option value="Apres-midi">Après-midi</option>
@@ -173,7 +173,8 @@
 						<input type="text" name="content[]" placeholder="(Précisions)">
 
 
-						<button type="button" id="add-act">+</button>
+						<button type="button" class="add-act">+</button>
+						<button type="button" class="dl-row" style="display: none;">-</button>
 					</div>
 
 				</fieldset>

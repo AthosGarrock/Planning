@@ -25,31 +25,15 @@ $('.dates li:not(.mask)').click(function(){
 		
 		//Gestion des activités 
 		$.getJSON('Ajax/processAJAX.php', {"e_id": $(this).attr('entry'), "attr":theme}, function(dGet){
-
 			//Affiche la couleur associée au thème. 
 				$('.theme_display').css({backgroundColor: dGet.color});
 				if (!dGet.color) {$('.theme_display').css({backgroundColor: 'darkgrey'});}
-
 			//Affiche la catégorie journalière par défaut.
 				Array.from($('#theme option')).forEach(function(opt){
-
 					if (typeof theme !== 'undefined' && $(opt).val() ==  theme.trim() ) {
 						$(opt).attr('selected', 'selected');
 					}
-
 				});
-			// Returns time in minutes.
-			function timeToInt(time){
-				let totalMin = null;
-
-				if (typeof time !== 'undefined') {
-					let hours = parseInt(time[0]+time[1]);
-					totalMin = hours*60+parseInt(time[3]+time[4]);
-				}
-				return totalMin;
-			}
-
-			let i = 0;
 
 			console.log(dGet);
 
@@ -59,17 +43,12 @@ $('.dates li:not(.mask)').click(function(){
 				$('#graph').show();
 
 				dGet.entry.forEach(function(e){
-					i++;
-					
-					//Eléments ajoutés
-
-					let div = document.createElement('div'); //Element visuel (jauge journalière)
 
 					//Article/Entrées mixtes
-					let art = document.createElement('article'); //Ensemble des donnees relatives à l'act
-					$(art).attr({entry: e.id});
+						let art = document.createElement('article'); //Ensemble des donnees relatives à l'act
+						$(art).attr({entry: e.id});
 
-					let act = e.activite; //Contenu de l'activité
+						let act = e.activite; //Contenu de l'activité
 
 					//Catégorie de l'activite
 						let title = document.createElement('h4'); 
@@ -82,25 +61,20 @@ $('.dates li:not(.mask)').click(function(){
 						$(p).addClass('cell');
 
 					//Tranche horaire
-					let duree = document.createElement('span');
-					$(duree).addClass('time-act');
-					$(duree).addClass('cell');
-						//Nous n'utilisons que les heures et minutes.
-						let aStart = e.e_start;
-						aStart = aStart.substr(-aStart.length, 5)
-						// let aEnd = e.e_end;
-						// aEnd = aEnd.substr(-aEnd.length, 5)
+						let duree = document.createElement('span');
+						$(duree).addClass('time-act');
+						$(duree).addClass('cell');
+							//Nous n'utilisons que les heures et minutes.
+							let aStart = e.e_start;
+							aStart = aStart.substr(-aStart.length, 5)
+							// let aEnd = e.e_end;
+							// aEnd = aEnd.substr(-aEnd.length, 5)
 
-						$(duree).html(aStart+' ');
+							$(duree).html(aStart+' ');
 
 
 					//Flag for deletion.
-					let delElt = $('<input type="checkbox" class="del-entry" name="del-'+e.id+'"> ');
-					$(delElt).click(function(){
-						$.post('Ajax/processAJAX.php', {delete: 'act', e_start: e.e_start}, function(dPost) {
-							console.log(e.e_start);
-						})
-					})
+					let delElt = $('<input type="checkbox" class="del-entry" name="del['+e.id+']"> ');
 
 					//-------------------------Modifie une activité [EDIT]
 						$(title).click(function() {
@@ -133,20 +107,6 @@ $('.dates li:not(.mask)').click(function(){
 
 					//Intégration dans l'entrée;
 						$('#daydata').append(art);
-
-
-
-					// let start = timeToInt(e.e_start);
-					// let end = timeToInt(e.e_end);
-
-
-					// //Formule à peaufiner
-					// let wth = (end-start)*100/(60*8);
-					
-
-					// $(div).css({backgroundColor: dGet[act]['color'], height:"100%", width:wth+'%', display:"inline-block"});
-					// $('#graph').append(div);
-	
 				})					
 			} else {
 				$('#graph').hide()
@@ -156,7 +116,7 @@ $('.dates li:not(.mask)').click(function(){
 			}
 		});
 
-	//Si une entrée a été selectionnée pour effacement [EDIT/DELETE]
+	//[EDIT/DELETE activite]Si une entrée a été selectionnée pour effacement 
 		$('#daydata').change(function(){
 			if ($("input:checkbox").is(":checked") || $('#form1 input').val() || $('#form1 select').length != 0) {
 				$('#erase').show();
@@ -168,12 +128,14 @@ $('.dates li:not(.mask)').click(function(){
 		$('#entry').show(); 
 
 
-	//-------------------------Efface toutes les infos de ce jour.
+	//[DELETE DayEntry]-------------------------Efface toutes les infos de ce jour.
 
 	$('.delete.day-entry').click(function(){
 		if (window.confirm('Voulez-vous vraiment effacer toutes les informations liées à ce jour?')) {
-			$.post('Ajax/processAJAX.php', {delete: 'day', d_start: day}, function(dPost) {
+			$.post('Ajax/edit.php', {d_start: day}, function(dPost) {
 				console.log(day);
+			}).fail(function(){
+				alert("L'entrée n'a pas pu être effacée.")
 			})			
 		}
 
@@ -274,8 +236,18 @@ $('#theme').change(function(){
 
 
 //-------------------------Ajoute une activité. [ADD]
-$('#add-act').click(function(e) {
-	$('#add').clone().appendTo('.details');
+$('.dl-row').click(function(event) {
+	$(this).parent().remove();
+
+	// Vérifie qu'il y a toujours au moins une instance d'une ligne d'entrée, sinon cache le bouton de suppression.
+	if($('.add-act').length < 2){
+		$('.dl-row').hide();
+	}
+});
+
+$('.add-act').click(function(e) {
+	$(this).parent().clone(true).appendTo('.details');
+	$('.dl-row').show();
 });
 
 //-------------------------Efface ou modifie une activité [EDIT/DELETE]

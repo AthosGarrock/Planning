@@ -38,8 +38,10 @@ class EntryManager extends CoreManager
 	}
 
 	public function delete($id){
-		$sql = ('DELETE FROM table WHERE id = :id');
+		$sql = ('DELETE FROM entry WHERE id = :id');
 		$values = [':id' => $id];
+
+		$this->makeStatement($sql, $values);
 	}
 }
 
