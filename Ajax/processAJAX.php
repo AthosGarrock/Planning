@@ -109,7 +109,6 @@
 			if (!empty($_GET['e_id'])) {
 				$display['entry'] = $em->getAllByDay($_GET['e_id']);
 
-
 				foreach ($display['entry'] as $value) {
 					$display[$value['activite']]['color'] = $cm->get($value['activite'])['color'];
 					$value['content'] = strip_tags($value['content']);

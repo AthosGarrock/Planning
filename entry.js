@@ -24,97 +24,105 @@ $('.dates li:not(.mask)').click(function(){
 		}
 		
 		//Gestion des activités 
-		$.getJSON('Ajax/processAJAX.php', {"e_id": $(this).attr('entry'), "attr":theme}, function(dGet){
-			//Affiche la couleur associée au thème. 
-				$('.theme_display').css({backgroundColor: dGet.color});
-				if (!dGet.color) {$('.theme_display').css({backgroundColor: 'darkgrey'});}
-			//Affiche la catégorie journalière par défaut.
-				Array.from($('#theme option')).forEach(function(opt){
-					if (typeof theme !== 'undefined' && $(opt).val() ==  theme.trim() ) {
-						$(opt).attr('selected', 'selected');
-					}
-				});
-
-			console.log(dGet);
-
-			//Si des entrées ont été récupérées
-			if (typeof dGet.entry == 'object') {
-
-				$('#graph').show();
-
-				dGet.entry.forEach(function(e){
-
-					//Article/Entrées mixtes
-						let art = document.createElement('article'); //Ensemble des donnees relatives à l'act
-						$(art).attr({entry: e.id});
-
-						let act = e.activite; //Contenu de l'activité
-
-					//Catégorie de l'activite
-						let title = document.createElement('h4'); 
-						$(title).html(act+' ');
-						$(title).addClass('cell');
-
-					//Précisions
-						let p = document.createElement('p'); 
-						$(p).html(e.content);
-						$(p).addClass('cell');
-
-					//Tranche horaire
-						let duree = document.createElement('span');
-						$(duree).addClass('time-act');
-						$(duree).addClass('cell');
-							//Nous n'utilisons que les heures et minutes.
-							let aStart = e.e_start;
-							aStart = aStart.substr(-aStart.length, 5)
-							// let aEnd = e.e_end;
-							// aEnd = aEnd.substr(-aEnd.length, 5)
-
-							$(duree).html(aStart+' ');
-
-
-					//Flag for deletion.
-					let delElt = $('<input type="checkbox" class="del-entry" name="del['+e.id+']"> ');
-
-					//-------------------------Modifie une activité [EDIT]
-						$(title).click(function() {
-
-							$(this).replaceWith("<div><select name='edit_activite["+e.id+"]' required></select></div>");
-							//Récupère la liste des  activités pour les intégrer dans select.
-							$.getJSON('Ajax/select.php', function(dGet){
-								
-								let options = '';
-
-								dGet.forEach(function(opt){
-									options += '<option>'+opt.name+'</option>';
-								})
-
-								$("[name='edit_activite["+e.id+"]']").html(options);	
-							})
-							$('#erase').show();
+		function getEntries(element){
+			//Gestion des activités 
+				$.getJSON('Ajax/processAJAX.php', {"e_id": $(element).attr('entry'), "attr":theme}, function(dGet){
+					//Affiche la couleur associée au thème. 
+						$('.theme_display').css({backgroundColor: dGet.color});
+						if (!dGet.color) {$('.theme_display').css({backgroundColor: 'darkgrey'});}
+					//Affiche la catégorie journalière par défaut.
+						Array.from($('#theme option')).forEach(function(opt){
+							if (typeof theme !== 'undefined' && $(opt).val() ==  theme.trim() ) {
+								$(opt).attr('selected', 'selected');
+							}
 						});
 
-						$(p).click(function(){
-							$(this).replaceWith("<div><input type='text' name='edit_content["+e.id+"]' required></div>");
-							$('#erase').show();
-						})
+					console.log(dGet);
 
-					//Intégration dans l'article;
-						$(art).append(title);
-						$(art).append(duree);
-						$(art).append(p);
-						$(art).append(delElt);
+					//Si des entrées ont été récupérées
+					if (typeof dGet.entry == 'object') {
 
-					//Intégration dans l'entrée;
-						$('#daydata').append(art);
-				})					
-			} else {
-				$('#graph').hide()
-				let p = document.createElement('p');
-				$(p).html('Aucune information.')
-				$('#daydata').append(p); 
-			}
-		});
+						$('#graph').show();
+
+						dGet.entry.forEach(function(e){
+
+							//Article/Entrées mixtes
+								let art = document.createElement('article'); //Ensemble des donnees relatives à l'act
+								$(art).attr({entry: e.id});
+
+								let act = e.activite; //Contenu de l'activité
+
+							//Catégorie de l'activite
+								let title = document.createElement('h4'); 
+								$(title).html(act+' ');
+								$(title).addClass('cell');
+
+							//Précisions
+								let p = document.createElement('p'); 
+								$(p).html(e.content);
+								$(p).addClass('cell');
+
+							//Tranche horaire
+								let duree = document.createElement('span');
+								$(duree).addClass('time-act');
+								$(duree).addClass('cell');
+									//Nous n'utilisons que les heures et minutes.
+									let aStart = e.e_start;
+									aStart = aStart.substr(-aStart.length, 5)
+									// let aEnd = e.e_end;
+									// aEnd = aEnd.substr(-aEnd.length, 5)
+
+									$(duree).html(aStart+' ');
+
+
+							//Flag for deletion.
+							let delElt = $('<input type="checkbox" class="del-entry" name="del['+e.id+']"> ');
+
+							//-------------------------Modifie une activité [EDIT]
+								$(title).click(function() {
+
+									$(this).replaceWith("<div><select name='edit_activite["+e.id+"]' required></select></div>");
+									//Récupère la liste des  activités pour les intégrer dans select.
+									$.getJSON('Ajax/select.php', function(dGet){
+										
+										let options = '';
+
+										dGet.forEach(function(opt){
+											options += '<option>'+opt.name+'</option>';
+										})
+
+										$("[name='edit_activite["+e.id+"]']").html(options);	
+									})
+									$('#erase').show();
+								});
+
+								$(p).click(function(){
+									$(this).replaceWith("<div><input type='text' name='edit_content["+e.id+"]' required></div>");
+									$('#erase').show();
+								})
+
+							//Intégration dans l'article;
+								$(art).append(title);
+								$(art).append(duree);
+								$(art).append(p);
+								$(art).append(delElt);
+
+							//Intégration dans l'entrée;
+								$('#daydata').append(art);
+						})					
+					} else {
+						$('#graph').hide()
+						let p = document.createElement('p');
+						$(p).html('Aucune information.')
+						$('#daydata').append(p); 
+					}
+				});
+		}
+
+		getEntries(this);
+
+		let getThis = this;
+		console.log(getThis);
 
 	//[EDIT/DELETE activite]Si une entrée a été selectionnée pour effacement 
 		$('#daydata').change(function(){
@@ -127,13 +135,29 @@ $('.dates li:not(.mask)').click(function(){
 
 		$('#entry').show(); 
 
+	//[EDIT/DELETE]-------------------------Efface ou modifie une activité 
+		$('#form1').submit(function(e){
+			e.preventDefault();
+			let form = $(this).serialize();
+
+			$.post('Ajax/edit.php', form, function(dPost) {
+				console.log(form);
+				console.log(dPost);
+			});
+			
+			$('#daydata').html('');
+			getEntries(getThis);
+		})
+
+
 
 	//[DELETE DayEntry]-------------------------Efface toutes les infos de ce jour.
 
 	$('.delete.day-entry').click(function(){
 		if (window.confirm('Voulez-vous vraiment effacer toutes les informations liées à ce jour?')) {
 			$.post('Ajax/edit.php', {d_start: day}, function(dPost) {
-				console.log(day);
+				$('#form1').html('');
+				getEntries()
 			}).fail(function(){
 				alert("L'entrée n'a pas pu être effacée.")
 			})			
@@ -250,17 +274,6 @@ $('.add-act').click(function(e) {
 	$('.dl-row').show();
 });
 
-//-------------------------Efface ou modifie une activité [EDIT/DELETE]
-
-$('#form1').submit(function(e){
-	e.preventDefault();
-	let form = $(this).serialize();
-
-	$.post('Ajax/edit.php', form, function(dPost, textStatus, xhr) {
-		console.log(form);
-		console.log(dPost);
-	});
-})
 
 
 //-------------------------Permet de cliquer sur le formlaire sans le fermer automatiquement.
