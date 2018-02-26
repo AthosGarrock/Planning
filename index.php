@@ -10,6 +10,16 @@
 
 	var_dump($_SESSION['id']);
 
+	function get_options($array){
+    	$result = null;
+    	foreach ($array as $value) {
+    		$value = new Category($value);
+    		$result .= "<option value='{$value->getName()}'>{$value->getName(true)}</option>";
+    	}
+
+    	return $result;
+    }
+
 	
 	//Autoloader. Les Objets et leurs Managers sont automatiquement appelés si nécéssaire.
 		require_once('autoload.php');
@@ -24,17 +34,6 @@
     $themes = $cm->getAllThemes();
     $activites = $cm->getAllActivites();
 
-
-    function get_options($array){
-
-    	$result = null;
-    	foreach ($array as $value) {
-    		$value = new Category($value);
-    		$result .= "<option value='{$value->getName()}'>{$value->getName(true)}</option>";
-    	}
-
-    	return $result;
-    }
 
     $opt_themes = get_options($themes);
     $opt_act = get_options($activites);
@@ -89,7 +88,7 @@
 
 				<div class="entry_ctn">				
 					<div class="date day-select"></div>
-<!-- 					<aside id="graph"></aside> -->
+		<!-- 					<aside id="graph"></aside> -->
 
 					<div id="legend"></div>
 					<form id="form1">
@@ -179,7 +178,7 @@
 
 				</fieldset>
 				
-<!-- 				<textarea name="content" placeholder="Détaillez votre activité..."></textarea> -->
+		<!-- 				<textarea name="content" placeholder="Détaillez votre activité..."></textarea> -->
 
 				<input type="submit" value="Valider">
 			</form>

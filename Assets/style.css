@@ -320,6 +320,9 @@ body{
     }
 
     .delete{
+/*        width: 15px;
+        height: 15px;*/
+        border: 2px solid #ff2424c3;
         display: block;
         color: #d2cccc;
         cursor: pointer;
