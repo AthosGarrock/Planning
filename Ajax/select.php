@@ -1,6 +1,6 @@
 <?php 
 
-	require('../autoload.php');
+	require_once('../autoload.php');
 	require('../arrayFunctions.php');
 
 	$cm = new CategoryManager();

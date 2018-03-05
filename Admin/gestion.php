@@ -1,6 +1,5 @@
 <?php 
-	require_once('../Classes/Managers/CoreManager.php');
-	require_once('../Classes/Managers/CategoryManager.php');
+	require_once('../autoload.php');
 
 	$cm = new CategoryManager();
 	$data = $cm->getAllThemes();

@@ -1,7 +1,7 @@
 <?php 
 	session_start();
 
-	require('../autoload.php');
+	require_once('../autoload.php');
 	require('../arrayFunctions.php');
 
 	$em = new EntryManager();

@@ -5,7 +5,6 @@ class Calendar {
      * Constructor
      */
     public function __construct($data){     
-        // $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
         $this->_themes = $data;
         $this->_wm = new WeekManager();
         $this->_em = new EntryManager();

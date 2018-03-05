@@ -15,7 +15,7 @@ function close(){
 	$('.delete.day-entry').off();
 }
 
-function loadScript(){
+(function loadScript(){
 	//Efface toute présence d'événement sur la page.
 	$('*').off();
 	//--------------------------Obtient les informations liées à ce jour. [GET]
@@ -177,7 +177,7 @@ function loadScript(){
 				}).fail(function(){
 					alert("L'entrée n'a pas pu être effacée.")
 				}).done(function(){
-						$('main').load('Ajax/Refresh.php', function(){loadScript()});
+						$('main').load('Ajax/Refresh.php?month='+month+'&year='+year, function(){loadScript()});
 						close();
 				})			
 			}
@@ -237,7 +237,7 @@ function loadScript(){
 			console.log(dPost);
 		});
 
-		$('main').load('Ajax/Refresh.php', function(){loadScript()});
+		$('main').load('Ajax/Refresh.php?month='+month+'&year='+year, function(){loadScript()});
 
 	})
 
@@ -307,9 +307,9 @@ function loadScript(){
 	$('.toggle').click(function(){
 		close();
 	})
-}
+})()
 
-loadScript()
+
 
 })// $(function{}()) END, do not delete.
 

@@ -187,6 +187,10 @@
 </body>
 
 <!-- JS -->
+<script type="text/javascript">
+	var month = <?php echo (!empty($_GET['month'])?$_GET['month']."\n":date('m')."\n"); ?>
+	var year = <?php echo (!empty($_GET['year'])?$_GET['year']."\n":date('Y')."\n"); ?>
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="<?= ROOT ?>/entry.js"></script>
 <script type="text/javascript" src="<?= ROOT ?>/Assets/anim.js"></script>
