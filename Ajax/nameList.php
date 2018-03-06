@@ -3,18 +3,21 @@
 
 	$am = new AccountManager();
 
+	$results = [];
 
-	if (!empty($_POST['name'])) {
-		$data = $am->get($_POST['name']);
+	if (!empty($_GET['name'])) {
+		$data = $am->get($_GET['name']);
 
 		foreach ($data as $value) {
 			$prenom = $value['prenom'];
 			$nom = $value['nom'];
 
-			echo "<li>{$prenom} {$nom}</li>";
+			$results[] = $prenom.' '.$nom;
+
+			// echo "<li>{$prenom} {$nom}</li>";
 		}
-
-
 	}
+
+	echo json_encode($results);
 
  ?>

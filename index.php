@@ -8,7 +8,6 @@
 	//For localhost testing only.
 		// $_SESSION['id'] = 2147483647;
 
-	var_dump($_SESSION['id']);
 
 	function get_options($array){
     	$result = null;
@@ -38,7 +37,7 @@
     $opt_themes = get_options($themes);
     $opt_act = get_options($activites);
 
-    $data = $dem->getAllThemes($_SESSION['id']);
+    $data = ($_SESSION['type'] == 'Admin' && !empty($_SESSION['id_info']))?$dem->getAllThemes($_SESSION['id_info']):$dem->getAllThemes($_SESSION['id']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -64,7 +63,6 @@
 	</style>
 </head>
 <body>	
-	<h1>CE CONTENU EST ENCORE EN DEVELOPPEMENT</h1>
 	<nav>
 		<?php 
 			if (file_exists('../includes/nav.php')) {
@@ -72,6 +70,11 @@
 			}		
 		 ?>
 	 </nav>
+
+	<?php	//get back to normal view if Admin
+	if ($_SESSION['type'] == 'Admin' AND !empty($_SESSION['id_info'])) { ?>
+		<a href="Admin/access.php?back=true">Revenir à la selection de stagiaire.</a>
+	<?php } ?>
 	<main>
 		<?php 
 			echo new Calendar($data);

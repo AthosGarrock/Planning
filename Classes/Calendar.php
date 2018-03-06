@@ -162,9 +162,9 @@ class Calendar {
 
         return
             '<div class="header">'.
-                '<a class="prev" href="'.ROOT.'/index.php?month='.sprintf('%02d',$preMonth).'&year='.$preYear.'">&#10229;</a>'.
+                '<a class="prev" href="?month='.sprintf('%02d',$preMonth).'&year='.$preYear.'">&#10229;</a>'.
                     '<span class="title">'.date('m/Y',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'</span>'.
-                '<a class="next" href="'.ROOT.'/index.php?month='.sprintf("%02d", $nextMonth).'&year='.$nextYear.'">&#10230;</a>'.
+                '<a class="next" href="?month='.sprintf("%02d", $nextMonth).'&year='.$nextYear.'">&#10230;</a>'.
             '</div>';
     }
          
