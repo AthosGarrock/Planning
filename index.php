@@ -5,6 +5,10 @@
 	}
 	session_start();
 
+	if (!empty($_GET['back'])) {
+		unset($_SESSION['id_info']);
+	}
+
 	//For localhost testing only.
 		// $_SESSION['id'] = 2147483647;
 
@@ -37,18 +41,46 @@
     $opt_themes = get_options($themes);
     $opt_act = get_options($activites);
 
+    //Efface l'id du stagiaire selectionné.
+    if (!empty($_GET['back'])) {
+		unset($_SESSION['id_info']);
+	}
+
+	if ($_SESSION['type'] != 'Admin') {
+		redirect('../index.php');
+	}
+
+	//Si une sélection  a été faite
+	if (!empty($_POST['name'])) {
+		$am = new AccountManager();
+
+		try{
+			$_SESSION['id_info'] = $am->getId($_POST['name']);
+		} catch(Exception $e){
+			throw new Exception("User not found", 1);
+		}
+	}
+
     $data = ($_SESSION['type'] == 'Admin' && !empty($_SESSION['id_info']))?$dem->getAllThemes($_SESSION['id_info']):$dem->getAllThemes($_SESSION['id']);
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Planning Beta</title>
+	<!-- Style global -->
 	<link rel="stylesheet" href="<?= ROOT ?>/Assets/style.css">
+	<!-- Style navigateur -->
 	<link rel="stylesheet" href="<?= ROOT ?>/Assets/newNav.css">
-
+	<!-- FONT-AWESOME ( icones ) -->
 	<link rel="stylesheet" href="../css/font-awesome.css">
 
-	<!-- User-generated themes/types colors -->
+	<!-- jQuery + UI  -->
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+	<!-- Thèmes générés par l'administrateur -->
 	<style>
 		<?php 
 			foreach ($themes as $theme) {
@@ -69,12 +101,24 @@
 				include '../includes/nav.php';
 			}		
 		 ?>
-	 </nav>
+	</nav>	
+	<?php 
+		if ($_SESSION['type'] == 'Admin') {
+			?>
+			<div class="admin">
+				<form action="" method="POST" class="s_user">
+					<input id="uname" type="text" autocomplete="off" placeholder="Nom ou prénom du stagiaire..." name="name" >
+					<input type="submit" value="Accéder!">
+				</form>
+			<?php
+			if ($_SESSION['type'] == 'Admin' AND !empty($_SESSION['id_info'])) { ?>
+				<a href="?back=true">Retour</a>
+	 		<?php } ?>
+	 		</div>
+	 		<?php
+		} 
+	?>
 
-	<?php	//get back to normal view if Admin
-	if ($_SESSION['type'] == 'Admin' AND !empty($_SESSION['id_info'])) { ?>
-		<a href="Admin/access.php?back=true">Revenir à la selection de stagiaire.</a>
-	<?php } ?>
 	<main>
 		<?php 
 			echo new Calendar($data);
@@ -186,7 +230,7 @@
 				<input type="submit" value="Valider">
 			</form>
 		</div>	
-	</section>
+	</section>		
 </body>
 
 <!-- JS -->
@@ -194,7 +238,7 @@
 	var month = <?php echo (!empty($_GET['month'])?$_GET['month']."\n":date('m')."\n"); ?>
 	var year = <?php echo (!empty($_GET['year'])?$_GET['year']."\n":date('Y')."\n"); ?>
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="<?= ROOT ?>/entry.js"></script>
 <script type="text/javascript" src="<?= ROOT ?>/Assets/anim.js"></script>
+<script type="text/javascript" src="<?= ROOT ?>/Assets/autocomplete.js"></script>
 </html>

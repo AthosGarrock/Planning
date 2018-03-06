@@ -1,8 +1,8 @@
 body{
     margin: 0;
-    /*background-image: url(../../images/fond-actu.jpg);*/
-    background-image: url(../cosmos.jpg);
-    background-color: #0c0c1d;
+    background-image: url(../../images/fond-actu.jpg);
+    /*background-image: url(../cosmos.jpg);*/
+    background-color: #e7d2b3;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -359,4 +359,10 @@ body{
     .time-act::after, .time-act::before {
         content: '|';
     }
+}
+
+/*Accès ADMIN*/
+
+.admin{
+    text-align: center;
 }
