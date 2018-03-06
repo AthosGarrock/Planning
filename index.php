@@ -46,10 +46,6 @@
 		unset($_SESSION['id_info']);
 	}
 
-	if ($_SESSION['type'] != 'Admin') {
-		redirect('../index.php');
-	}
-
 	//Si une sélection  a été faite
 	if (!empty($_POST['name'])) {
 		$am = new AccountManager();
