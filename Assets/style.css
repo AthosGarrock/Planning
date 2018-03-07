@@ -359,10 +359,9 @@ body{
     .time-act::after, .time-act::before {
         content: '|';
     }
-}
-
 /*Accès ADMIN*/
 
-.admin{
+.ftg{
+    margin: 3%;
     text-align: center;
 }

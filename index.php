@@ -75,7 +75,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-
 	<!-- Thèmes générés par l'administrateur -->
 	<style>
 		<?php 
@@ -101,7 +100,7 @@
 	<?php 
 		if ($_SESSION['type'] == 'Admin') {
 			?>
-			<div class="admin">
+			<div class="ftg">
 				<form action="" method="POST" class="s_user">
 					<input id="uname" type="text" autocomplete="off" placeholder="Nom ou prénom du stagiaire..." name="name" >
 					<input type="submit" value="Accéder!">
@@ -120,6 +119,13 @@
 			echo new Calendar($data);
 		?> 	
 	</main>
+
+	<!-- STATS -->
+	<section class="u-stats">
+		
+	</section>
+
+	<!-- ENTREE JOURNALIERE -->
 	<section class="toggle">
 		<div class="close" title="Fermer l'entrée">X</div>
 		<div id="ctn">
@@ -146,7 +152,6 @@
 
 			<!-- Formulaire -->
 			<form action="" method="POST" class="enform" id="form2">
-
 				<label for="d_start">Du:</label>
 				<input type="date" class="date" readonly name="d_start">
 				<label for="d_end" class="d_end">Jusqu'au</label>
@@ -220,8 +225,6 @@
 					</div>
 
 				</fieldset>
-				
-		<!-- 				<textarea name="content" placeholder="Détaillez votre activité..."></textarea> -->
 
 				<input type="submit" value="Valider">
 			</form>
@@ -237,4 +240,54 @@
 <script src="<?= ROOT ?>/entry.js"></script>
 <script type="text/javascript" src="<?= ROOT ?>/Assets/anim.js"></script>
 <script type="text/javascript" src="<?= ROOT ?>/Assets/autocomplete.js"></script>
+<script type="text/javascript" src ="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+
+<script>
+	let arr = [];
+	let ctx = document.querySelector('canvas');
+
+
+	for (var i = 0; i <= 20; i++) {
+		arr[i] = 2*i;
+	};
+
+	var myChart = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", 'test'],
+	        datasets: [{
+	            label: '# of Votes',
+	            data: [12, 19, 3, 5, 2, 3],
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255,99,132,1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	    	responsive: false,
+	        scales: {
+	            yAxes: [{
+	                ticks: {
+	                    beginAtZero:true
+	                }
+	            }]
+	        },
+	        maintainAspectRatio: true,
+	    }
+	});
+</script>
 </html>
