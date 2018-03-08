@@ -122,7 +122,7 @@
 
 	<!-- STATS -->
 	<section class="u-stats">
-		
+		<canvas width="250px" height="400px"></canvas>
 	</section>
 
 	<!-- ENTREE JOURNALIERE -->
@@ -240,6 +240,7 @@
 <script src="<?= ROOT ?>/entry.js"></script>
 <script type="text/javascript" src="<?= ROOT ?>/Assets/anim.js"></script>
 <script type="text/javascript" src="<?= ROOT ?>/Assets/autocomplete.js"></script>
+<!-- CHART.JS -->
 <script type="text/javascript" src ="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 
 <script>
@@ -254,7 +255,7 @@
 	var myChart = new Chart(ctx, {
 	    type: 'bar',
 	    data: {
-	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", 'test'],
+	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
 	        datasets: [{
 	            label: '# of Votes',
 	            data: [12, 19, 3, 5, 2, 3],

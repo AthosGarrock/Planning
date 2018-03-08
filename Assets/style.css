@@ -63,7 +63,7 @@ body{
      
      
      
-    /*******************************Calendar Content Cells*********************************/
+/*******************************Calendar Content Cells*********************************/
     #calendar div.box-content{
         border:1px solid #787878 ;
         border-top:none;
@@ -295,8 +295,7 @@ body{
         opacity: 1;
     }
 
-    /*Classes pour stage, absences , gestions des contenus*/
-
+/*Classes pour stage, absences , gestions des contenus*/
     .desc{
         text-align: left;
         margin: 16px 0 0 6px;
@@ -320,8 +319,6 @@ body{
     }
 
     .delete{
-/*        width: 15px;
-        height: 15px;*/
         border: 2px solid #ff2424c3;
         display: block;
         color: #d2cccc;
@@ -336,7 +333,6 @@ body{
         -webkit-transition: ease 0.8s;
         transition: ease 0.8s;
     }
-
 /*Affichage des entrées*/
     #daydata{
         display: table;
@@ -359,9 +355,18 @@ body{
     .time-act::after, .time-act::before {
         content: '|';
     }
-/*Accès ADMIN*/
 
-.ftg{
-    margin: 3%;
-    text-align: center;
-}
+    canvas{
+        position: absolute;
+        top: 20%;
+        background-color: #ffffff;
+        border: 1px solid gray;
+    }
+/*Accès ADMIN*/
+    .ftg{
+        margin: 3%;
+        text-align: center;
+    }
+
+
+
