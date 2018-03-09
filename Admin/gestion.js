@@ -12,15 +12,17 @@
 		form.innerHTML = '<h2>Ajouter un nouvel élément</h2>';
 
 		//Champs du formulaire
-		let field = document.createElement('fieldset');
-		let field2 = field.cloneNode(false);
-		let field3 = field.cloneNode(false);
+		let nameF = document.createElement('fieldset');
+		let iniF = nameF.cloneNode(false);
+		let typeF = nameF.cloneNode(false);
+		let colorF = nameF.cloneNode(false);
 
-		let fieldArray = [field, field2, field3];
+		let fieldArray = [nameF, iniF, typeF, colorF];
 
-		field.innerHTML = '<label>Nom : </label><input type="text" name="name" required><br>';
-		field2.innerHTML = '<label>Type : </label><select name="type" required><option value="theme">Thème</option><option value="activite">Activité</option></select><br>';
-		field3.innerHTML = '<label>Couleur : </label><input type="color" name="color" required><br>';
+		nameF.innerHTML = '<label>Nom : </label><input type="text" name="name" required><br>';
+		iniF.innerHTML = '<label>Initiales : </label><input type="text" name="ini" required><br>';
+		typeF.innerHTML = '<label>Type : </label><select name="type" required><option value="theme">Thème</option><option value="activite">Activité</option></select><br>';
+		colorF.innerHTML = '<label>Couleur : </label><input type="color" name="color" required><br>';
 
 		//Un bouton fermeture
 		let close = document.createElement('span');

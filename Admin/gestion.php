@@ -16,6 +16,7 @@
 		foreach ($data as $theme) {
 			$themes .= "<div class='row'>
 								<div class='name'>{$theme['name']}</div>
+								<div class='name'>{$theme['initials']}</div>
 								<div class='color' style='background-color: {$theme['color']};'></div>	
 							</div> ";
 		}
@@ -27,6 +28,7 @@
 		foreach ($dat_act as $activite) {
 			$act .= "<div class='row'>
 								<div class='name'>{$activite['name']}</div>
+								<div class='name'>{$activite['initials']}</div>
 								<div class='color' style='background-color: {$activite['color']};'></div>	
 							</div> ";
 		}
@@ -45,8 +47,8 @@
 <body>
 	<nav>
 		<?php 
-			if (file_exists('../includes/nav.php')) {
-				include '../includes/nav.php';
+			if (file_exists('../../includes/nav.php')) {
+				include '../../includes/nav.php';
 			}
 		?>
 	</nav>
@@ -57,6 +59,7 @@
 		
 		<div class="row title">
 			<div class='name'>Nom</div>
+			<div class='name'>Initiales</div>
 			<div class='color'>Couleur</div>
 		</div>
 		<div class="ctn-ajax">
@@ -69,6 +72,7 @@
 		
 		<div class="row title">
 			<div class='name'>Nom</div>
+			<div class='name'>Initiales</div>
 			<div class='color'>Couleur</div>
 		</div>
 		<div class="ctn-ajax">

@@ -9,7 +9,6 @@ class DayEntry
     private $_id;
 	private $_account_id;
     private $_d_start;
-    private $_d_end;
     private $_theme;
 
     use Hydrator;
@@ -100,26 +99,6 @@ class DayEntry
     public function setDStart($_d_start)
     {
         $this->_d_start = $_d_start;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDEnd()
-    {
-        return $this->_d_end;
-    }
-
-    /**
-     * @param mixed $_d_end
-     *
-     * @return self
-     */
-    public function setDEnd($_d_end)
-    {
-        $this->_d_end = $_d_end;
 
         return $this;
     }

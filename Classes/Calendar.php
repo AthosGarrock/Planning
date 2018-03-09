@@ -1,13 +1,16 @@
  <?php
 
+//Définit la langue locale comme FR. Utile pour strftime.
+    setlocale(LC_ALL, 'fr_FR.utf8');
+
 class Calendar {  
     /**
      * Constructor
      */
     public function __construct($data){     
         $this->_themes = $data;
-        $this->_wm = new WeekManager();
         $this->_em = new EntryManager();
+        $this->_cm = new CategoryManager();
     }
 
     public function __toString(){
@@ -31,8 +34,8 @@ class Calendar {
     private $daysInMonth = 0;  
     private $naviHref = null;
     private $_themes; 
-    private $_wm; #WeekManager
     private $_em; #entryManager
+    private $_cm; #categoryManager
 
     /********************* PRIVATE **********************/ 
     /**
@@ -112,33 +115,19 @@ class Calendar {
 
             if (!empty($this->_themes)) {
                 foreach ($this->_themes as $value) {
+                    $ini = $this->_cm->getThemeIni($value['theme']);
+                    //Jour courant
                     $start = new DateTime($value['d_start']);
-                    $end = new DateTime($value['d_end']);
-                    $cur = !empty($this->currentDate)?new DateTime($this->currentDate):null;      
-                    $cur_day = lcfirst(date('D',strtotime($this->currentDate))); #date en jour (mon, tue...)
-                   
-                   //Si le jour est bien compris dans une période entrée...
-                    if ( $start <= $cur AND $end >= $cur) {
-                        //Checke si il y a précision de durée ou non.
-                        $week = $this->_wm->get($value['id']);
-                        if (!empty($week)) {
-                            if ($week[$cur_day]) {
-                                $class_theme = ' '.$value['theme'];
-                            }
-                        } else{
-                            $class_theme = ' '.$value['theme'];
-                        }     
-                    } 
+                    $cur = !empty($this->currentDate)?new DateTime($this->currentDate):null;
+
+                    //Si une activité a été trouvée pour le jour sélectionné.
                     if ($start == $cur) {
                         $th_display = $value['theme'];
-
                         $d_id = $value['id'];
-
-                        
+                        $class_theme = ' '.$value['theme'];  
                     }
                 }
             }
-
 
             $classes = $day_pos.$is_null.$is_today.$class_theme;
                     
@@ -163,7 +152,7 @@ class Calendar {
         return
             '<div class="header">'.
                 '<a class="prev" href="?month='.sprintf('%02d',$preMonth).'&year='.$preYear.'">&#10229;</a>'.
-                    '<span class="title">'.date('m/Y',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'</span>'.
+                    '<span class="title">'.ucfirst(strftime('%B %Y',strtotime($this->currentYear.'-'.$this->currentMonth.'-1'))).'</span>'.
                 '<a class="next" href="?month='.sprintf("%02d", $nextMonth).'&year='.$nextYear.'">&#10230;</a>'.
             '</div>';
     }

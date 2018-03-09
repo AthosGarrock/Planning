@@ -6,6 +6,7 @@
 
 	if (!empty($_POST)) {
 		$category = new Category([	'name'=>$_POST['name'],
+									'initials'=>$_POST['ini'],
 									'type'=>$_POST['type'],
 									'color'=>$_POST['color']]);
 

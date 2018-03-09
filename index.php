@@ -57,7 +57,9 @@
 		}
 	}
 
-    $data = ($_SESSION['type'] == 'Admin' && !empty($_SESSION['id_info']))?$dem->getAllThemes($_SESSION['id_info']):$dem->getAllThemes($_SESSION['id']);
+    $data = ($_SESSION['type'] == 'Admin' && !empty($_SESSION['id_info']))
+    		?$dem->getAllThemes($_SESSION['id_info'])
+    		:$dem->getAllThemes($_SESSION['id']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -237,12 +239,14 @@
 	var month = <?php echo (!empty($_GET['month'])?$_GET['month']."\n":date('m')."\n"); ?>
 	var year = <?php echo (!empty($_GET['year'])?$_GET['year']."\n":date('Y')."\n"); ?>
 </script>
+<!-- main script -->
 <script src="<?= ROOT ?>/entry.js"></script>
+<!-- animated navigator -->
 <script type="text/javascript" src="<?= ROOT ?>/Assets/anim.js"></script>
+<!-- autocompletion -->
 <script type="text/javascript" src="<?= ROOT ?>/Assets/autocomplete.js"></script>
 <!-- CHART.JS -->
 <script type="text/javascript" src ="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
-
 <script>
 	let arr = [];
 	let ctx = document.querySelector('canvas');

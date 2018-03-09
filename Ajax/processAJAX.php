@@ -13,7 +13,6 @@
 
 	$dem = new DayEntryManager();
 	$em = new EntryManager();
-	$wm = new WeekManager();
 	$cm = new CategoryManager();
 		
 	//Placeholders
@@ -80,22 +79,9 @@
 
 						break;
 					case 'Stage':
-						//[WEEK]Ajoute une entrée semaine pour gérer avec précision les jours de travail.
-						$days = ['mon','tue','wed', 'thu', 'fri', 'sat', 'sun'];
-						$check = false;
-
-						$day_posts = [];
-						$day_posts['de_fk'] = $ref;
-						foreach ($days as $day) {
-							if (array_key_exists($day, $_POST)) {
-								$day_posts[$day] = true;
-							} else{
-								$day_posts[$day] = false;
-							}
-						}
-
-						$week = new Week($day_posts);
-						$wm->add($week);
+						$start = strtotime($_POST['d_start']);
+						$end = strtotime($_POST['d_end']);
+						$days = floor(($start-$end)/(24*3600));
 						break;
 				}
 			}

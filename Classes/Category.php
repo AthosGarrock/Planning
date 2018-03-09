@@ -8,6 +8,7 @@ require_once('Hydrator.trait.php');
 class Category
 {
 	private $name;
+    private $initials;
 	private $type;
 	private $color;
 	
@@ -81,6 +82,26 @@ class Category
     public function setColor($color)
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInitials()
+    {
+        return $this->initials;
+    }
+
+    /**
+     * @param mixed $initials
+     *
+     * @return self
+     */
+    public function setInitials($initials)
+    {
+        $this->initials = $initials;
 
         return $this;
     }
