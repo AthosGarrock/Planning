@@ -8,7 +8,8 @@ class DayEntryManager extends CoreManager
 		$values = [	":account_id"	=> $entry->getAccountId(),
 					":d_start"		=> $entry->getDStart(),
 					":theme"		=> $entry->getTheme()];
-		$this->makeStatement($sql, $values);		
+		$this->makeStatement($sql, $values);
+		return true;		
 	}
 
 	public function update(DayEntry $entry){

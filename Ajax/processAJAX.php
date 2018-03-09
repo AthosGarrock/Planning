@@ -75,13 +75,20 @@
 								$em->add($e_entry);
 							}
 						}
-
-
 						break;
 					case 'Stage':
 						$start = strtotime($_POST['d_start']);
 						$end = strtotime($_POST['d_end']);
-						$days = floor(($start-$end)/(24*3600));
+
+						//Nombre de jours écoulés entre la date de début et la date de fin.
+						$days = floor(($end-$start)/(24*3600));
+
+						//Ajoute une entrée par jour.
+						for ($i=1; $i < $days; $i++) { 
+							$data['d_start'] = date('Y-m-d', $start+($i*24*3600));
+							$d_entry = new DayEntry($data);
+							$dem->add($d_entry);
+						}
 						break;
 				}
 			}
