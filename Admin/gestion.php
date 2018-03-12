@@ -9,13 +9,17 @@
 	$themes = null;
 	$act = null;
 
+
+
 	//
 	if (empty($data)){
 		#code to alert nothing was found
 	} else {
 		foreach ($data as $theme) {
+			$name = str_replace('_', ' ', $theme['name']);
+
 			$themes .= "<div class='row'>
-								<div class='name'>{$theme['name']}</div>
+								<div class='name'>{$name}</div>
 								<div class='name'>{$theme['initials']}</div>
 								<div class='color' style='background-color: {$theme['color']};'></div>	
 							</div> ";
@@ -26,8 +30,10 @@
 		#nothing was found
 	} else {
 		foreach ($dat_act as $activite) {
+			$name = str_replace('_', ' ', $activite['name']);
+			
 			$act .= "<div class='row'>
-								<div class='name'>{$activite['name']}</div>
+								<div class='name'>{$name}</div>
 								<div class='name'>{$activite['initials']}</div>
 								<div class='color' style='background-color: {$activite['color']};'></div>	
 							</div> ";

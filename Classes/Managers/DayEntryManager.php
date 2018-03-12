@@ -42,18 +42,29 @@ class DayEntryManager extends CoreManager
 		return $this->makeSelect($sql, $values);
 	}
 
-
-
+	/**
+	 * @param int (id de l'utilisateur)
+	 *
+	 * @return int (dernière entrée ajoutée par l'utilisateur.)
+	 */
 	public function getLast($account_id){
 		$sql = ('SELECT MAX(id) FROM day_entry WHERE account_id=:account_id');
 		$values = [":account_id"=>$account_id];
-		return $this->makeSingleSelect($sql, $values);
+		return $this->makeSingleSelect($sql, $values)['MAX(id)'];
 	}
 
+	//Efface une plage de données si le paramètre d_end est spécifié.
+	public function delete($account_id, $d_start, $d_end = NULL){
+		if (empty($d_end)) {
+			$sql = ('DELETE FROM day_entry WHERE account_id =:account_id AND d_start=:d_start');
+			$values = [":account_id"=>$account_id, ":d_start"=>$d_start];
+		}
+		else{
+			$sql = ('DELETE FROM day_entry WHERE account_id =:account_id AND d_start>=:d_start AND d_start<=:d_end');
+			$values= [":account_id"=>$account_id, ":d_start"=>$d_start, ":d_end"=>$d_end];
+		}
 
-	public function delete($account_id, $d_start){
-		$sql = ('DELETE FROM day_entry WHERE account_id =:account_id AND d_start=:d_start');
-		$values = [":account_id"=>$account_id, ":d_start"=>$d_start];
+
 		$this->makeStatement($sql, $values);
 	}
 
@@ -61,6 +72,12 @@ class DayEntryManager extends CoreManager
 		$sql = ('SELECT * FROM day_entry WHERE id=:id');
 		$values = [":id"=> $id];
 		return $this->makeSingleSelect($sql, $values); 
+	}
+
+	public function getCountByTheme($theme, $id){
+		$sql = ('SELECT COUNT(*) FROM day_entry WHERE theme=:theme AND account_id=:id');
+		$values = [':theme' => $theme, 'id' => $id];
+		return $this->makeSingleSelect($sql, $values)['COUNT(*)'];
 	}
 }
 

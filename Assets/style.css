@@ -59,10 +59,7 @@ body{
     div#calendar div.header a.next{
         right:0px;
     }
-     
-     
-     
-     
+         
 /*******************************Calendar Content Cells*********************************/
     #calendar div.box-content{
         border:1px solid #787878 ;
@@ -146,8 +143,7 @@ body{
     }
 
 /***************** --  Entrée du candidat -- ******************/
-
-    .enform, .details, .toggle, .d_end, .days, #period{
+    .hidden{
         display: none;
     }
 
@@ -362,10 +358,19 @@ body{
         background-color: #ffffff;
         border: 1px solid gray;
     }
-/*Accès ADMIN*/
+
+/*Other*/
     .ftg{
         margin: 3%;
         text-align: center;
+    }
+
+    #frm-del{
+       position: relative;
+       left: 50%;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        transform: translateX(-50%);
     }
 
 

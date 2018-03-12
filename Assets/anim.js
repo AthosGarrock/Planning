@@ -3,7 +3,7 @@ $(function(){
 		$('#nav').slideToggle();
 	})
 
-
+	//Permet d'afficher les sous-menu associés on hover
 	Array.from($('#nav li')).forEach(function(li){
 		$(li).hover(
 			function(){

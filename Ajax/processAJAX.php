@@ -47,7 +47,7 @@
 				if (empty($d_entry)){
 					$d_entry = new DayEntry($data);
 					$dem->add($d_entry);
-					$ref = $dem->getLast($_SESSION['id'])['MAX(id)'];
+					$ref = $dem->getLast($_SESSION['id']);
 				} else {
 					$ref = $d_entry['id'];
 					//[EDIT]Modifie l'entrée si nécéssaire.

@@ -3,10 +3,11 @@ $(function(){//works with jQuery
 
 //-------------------------Ferme l'entrée. [CLOSE]
 function close(){
-	$('.toggle').hide();
+	$('.toggle').fadeToggle();
 	$('#entry').hide(); 
 	$('.enform').hide();
 	$('#erase').hide();
+	$('.wide-del').hide()
 	
 	$('#daydata').html('');
 	$('#graph').html('');
@@ -15,13 +16,14 @@ function close(){
 	$('.delete.day-entry').off();
 }
 
+//Main function.
 (function loadScript(){
 	//Efface toute présence d'événement sur la page.
 	$('*').off();
 	//--------------------------Obtient les informations liées à ce jour. [GET]
 	$('.dates li:not(.mask)').click(function(){
 		//Affiche la bulle
-			$('.toggle').show();
+			$('.toggle').fadeToggle();
 		//let (Variables)
 			let arrtest = $(this).attr('id').split('-');
 			let day = arrtest[1]+'-'+arrtest[2]+'-'+arrtest[3];
@@ -57,9 +59,6 @@ function close(){
 
 						//Si des entrées ont été récupérées
 						if (typeof dGet.entry == 'object') {
-
-							$('#graph').show();
-
 							dGet.entry.forEach(function(e){
 
 								//Article/Entrées mixtes
@@ -127,7 +126,6 @@ function close(){
 									$('#daydata').append(art);
 							})					
 						} else {
-							$('#graph').hide()
 							let p = document.createElement('p');
 							$(p).html('Aucune information.')
 							$('#daydata').append(p); 
@@ -307,6 +305,34 @@ function close(){
 	$('.toggle').click(function(){
 		close();
 	})
+
+	//Delete form
+	$('#frm-del').click(function(){
+		//ensure nothing is displayed else than form
+		$('.toggle').hide();
+		$('#entry').hide(); 
+		$('.enform').hide();
+		$('#erase').hide();
+		//Show form
+		$('.toggle').fadeToggle('slow');
+		$('.wide-del').show();
+	})
+
+	$('#wide-del').submit(function(event) {
+		event.preventDefault();
+		let frmDel = $(this).serialize();
+
+		if (window.confirm('Voulez-vous vraiment effacer toutes les informations sur la période du X à Y?')) {
+			$.post('Ajax/edit.php', frmDel).fail(function(){
+				alert("Erreur lors de la requête.")
+			}).done(function(){
+					$('main').load('Ajax/Refresh.php?month='+month+'&year='+year, function(){loadScript()});
+					close();
+			})			
+		}
+	});
+
+
 })()
 
 

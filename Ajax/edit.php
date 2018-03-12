@@ -45,7 +45,8 @@
 
 	//[DELETE DayEntry]
 		if (!empty($_POST['d_start'])) {
-			$dem->delete($_SESSION['id'], $_POST['d_start']);
+			$end = !empty($_POST['d_end'])?$_POST['d_end']:null;
+			$dem->delete($_SESSION['id'], $_POST['d_start'], $end);
 		}
 
  ?>
