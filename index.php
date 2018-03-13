@@ -267,7 +267,8 @@
 			        scales: {
 			            yAxes: [{
 			                ticks: {
-			                    beginAtZero:true
+			                    beginAtZero:true,
+			                    suggestedMax: 25,
 			                }
 			            }]
 			        },

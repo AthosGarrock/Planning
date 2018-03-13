@@ -46,32 +46,25 @@
 
 				$.post('processCategory.php', data, function(dPost){
 					let dP = JSON.parse(dPost);
-					let ctnAjax = document.querySelector('.ctn-ajax');
-					ctnAjax.innerHTML = '';
 
+					//Actualise la page.
+					let entries = $('.ctn .row').not('.title');
+					entries.remove();
+					
 					dP.forEach(function(ctg){
-						let rowEl = document.createElement('div');
-						rowEl.className = 'row';
+						let ctn = $('<div class="row zoom"></div>');
+						ctn.append('<div class="name">'+ctg.name.replace(/_/g, ' ')+'</div>');
+						ctn.append('<div class="name">'+ctg.initials+'</div>');
 
-						let name = document.createElement('div');
-						name.className = 'name';
-						name.innerHTML = ctg.name
+						let color = $('<div class="color"></div>');
+						color.css('backgroundColor', ctg.color);
+						ctn.append(color);
 
-						let type = document.createElement('div');
-						type.className = 'type';
-						type.innerHTML = ctg.type;
-
-						let color = document.createElement('div');
-						color.className = 'color';
-						color.style.backgroundColor = ctg.color;
-
-
-						rowEl.appendChild(name);
-						rowEl.appendChild(type);
-						rowEl.appendChild(color);
-
-						ctnAjax.appendChild(rowEl);
-
+						if(ctg.type == 'theme'){
+							$('#theme').append(ctn);
+						} else{
+							$('#act').append(ctn);
+						}
 					})
 				})
 

@@ -9,16 +9,13 @@
 	$themes = null;
 	$act = null;
 
-
-
-	//
 	if (empty($data)){
 		#code to alert nothing was found
 	} else {
 		foreach ($data as $theme) {
 			$name = str_replace('_', ' ', $theme['name']);
 
-			$themes .= "<div class='row'>
+			$themes .= "<div class='row zoom'>
 								<div class='name'>{$name}</div>
 								<div class='name'>{$theme['initials']}</div>
 								<div class='color' style='background-color: {$theme['color']};'></div>	
@@ -32,7 +29,7 @@
 		foreach ($dat_act as $activite) {
 			$name = str_replace('_', ' ', $activite['name']);
 			
-			$act .= "<div class='row'>
+			$act .= "<div class='row zoom'>
 								<div class='name'>{$name}</div>
 								<div class='name'>{$activite['initials']}</div>
 								<div class='color' style='background-color: {$activite['color']};'></div>	
@@ -61,29 +58,23 @@
 	<h1>Gestion des catégories</h1>
 
 	<h2>Thèmes journaliers</h2>
-	<div class="ctn">
-		
+	<div class="ctn" id="theme">
 		<div class="row title">
 			<div class='name'>Nom</div>
 			<div class='name'>Initiales</div>
 			<div class='color'>Couleur</div>
 		</div>
-		<div class="ctn-ajax">
-			<?= $themes ?>
-		</div>
+		<?= $themes ?>
 	</div>	
 
 	<h2>Activités</h2>
-	<div class="ctn">
-		
+	<div class="ctn" id="act">
 		<div class="row title">
 			<div class='name'>Nom</div>
 			<div class='name'>Initiales</div>
 			<div class='color'>Couleur</div>
 		</div>
-		<div class="ctn-ajax">
-			<?= $act ?>
-		</div>
+		<?= $act ?>
 	</div>
 
 	<br>

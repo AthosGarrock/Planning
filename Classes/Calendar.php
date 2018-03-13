@@ -4,26 +4,6 @@
     setlocale(LC_ALL, 'fr_FR.utf8');
 
 class Calendar {  
-    /**
-     * Constructor
-     */
-    public function __construct($data){     
-        $this->_themes = $data;
-        $this->_em = new EntryManager();
-        $this->_cm = new CategoryManager();
-    }
-
-    public function __toString(){
-
-        //Utiliser try/catch permet d'afficher un message d'erreur dans la méthode __toString.
-
-        try {
-           return $this->show();
-        } catch ( Exception $e ) {
-            trigger_error($e->getMessage(), E_USER_ERROR);
-        }
-        
-    }
      
     /********************* PROPERTY ********************/  
     private $dayLabels = ["Lu","Ma","Me","Je","Ve","Sa","Di"];
@@ -33,9 +13,34 @@ class Calendar {
     private $currentDate = null; 
     private $daysInMonth = 0;  
     private $naviHref = null;
-    private $_themes; 
+    private $_entries; #contient les entrées récupérées par la BDD
+    private $_themes = []; #contient les initiales des catégories
     private $_em; #entryManager
     private $_cm; #categoryManager
+
+
+    /**
+     * Constructor
+     */
+    public function __construct($data){     
+        $this->_entries = $data;
+        $this->_em = new EntryManager();
+        $this->_cm = new CategoryManager();
+
+        foreach($this->_cm->getAllThemes() as $value){
+            $this->_themes[$value['name']] = $value['initials'];
+        }
+    }
+
+    public function __toString(){
+        //Utiliser try/catch permet d'afficher un message d'erreur dans la méthode __toString
+        try {
+           return $this->show();
+        } catch ( Exception $e ) {
+            trigger_error($e->getMessage(), E_USER_ERROR);
+        }
+        
+    }
 
     /********************* PRIVATE **********************/ 
     /**
@@ -43,7 +48,7 @@ class Calendar {
     */
     private function show(){
 
-        // var_dump($this->_themes);
+        // var_dump($this->_entries);
 
         $year = !empty($_GET['year'])?$_GET['year']:date('Y');      
         $month = !empty($_GET['month'])?$_GET['month']:date('m');
@@ -113,8 +118,8 @@ class Calendar {
             $class_theme = null;
             $d_id = null;
 
-            if (!empty($this->_themes)) {
-                foreach ($this->_themes as $value) {
+            if (!empty($this->_entries)) {
+                foreach ($this->_entries as $value) {
                     $ini = $this->_cm->getThemeIni($value['theme']);
                     //Jour courant
                     $start = new DateTime($value['d_start']);
@@ -135,7 +140,7 @@ class Calendar {
                     //Attributes
                     (!empty($class_theme)?' theme="'.$class_theme.'"':'').
                     (!empty($d_id)?'entry="'.$d_id.'"':'').
-                '>'.$cellContent.'<div class="desc">'.(!empty($th_display)?$th_display:null).'</div></li>';
+                '>'.$cellContent.'<div class="desc">'.(!empty($th_display)?$this->_themes[$th_display]:null).'</div></li>';
 
     }
      
@@ -215,4 +220,5 @@ class Calendar {
              
         return date('t',strtotime($year.'-'.$month.'-01'));
     }
+
 }

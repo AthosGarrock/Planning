@@ -25,7 +25,7 @@ class CategoryManager extends CoreManager
 	public function get($name){
 		$sql = ('SELECT * FROM categories WHERE name = :name ');
 		$values = [":name"=> trim($name)];
-		return $this->makeSingleSelect($sql, $values); 
+		return new Category($this->makeSingleSelect($sql, $values)); 
 	}
 
 	public function getThemeIni($name){
@@ -43,6 +43,7 @@ class CategoryManager extends CoreManager
 	public function getAllThemes(){
 		return $this->makeSelect(('SELECT * FROM categories WHERE type="theme"'));
 	}
+
 
 	//Retourne toutes les activités
 	public function getAllActivites(){
