@@ -28,6 +28,7 @@ class CategoryManager extends CoreManager
 		return new Category($this->makeSingleSelect($sql, $values)); 
 	}
 
+	//Retourne l'alias d'une catégorie
 	public function getThemeIni($name){
 		$sql = ('SELECT initials FROM categories WHERE name = :name AND type="theme"');
 		$values = [":name"=> trim($name)];
@@ -55,9 +56,9 @@ class CategoryManager extends CoreManager
 		return $this->makeSelect(('SELECT name FROM categories WHERE type="activite"'));
 	}
 
-	public function delete($name){
-		$sql = ('DELETE FROM categories WHERE name = :name');
-		$values = [":name"=>trim($name)];
+	public function delete($id){
+		$sql = ('DELETE FROM categories WHERE id = :id');
+		$values = [":id"=>$id];
 		$this->makeStatement($sql, $values);
 	}
 

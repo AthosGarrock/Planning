@@ -2,41 +2,23 @@
 	require_once('../autoload.php');
 
 	$cm = new CategoryManager();
-	$data = $cm->getAllThemes();
-	$dat_act = $cm->getAllActivites();
+	$data = $cm->getAll();
+	$themes = '';
+	$act = '';
 
-	$info = null;
-	$themes = null;
-	$act = null;
-
-	if (empty($data)){
-		#code to alert nothing was found
-	} else {
-		foreach ($data as $theme) {
-			$name = str_replace('_', ' ', $theme['name']);
-
-			$themes .= "<div class='row zoom'>
-								<div class='name'>{$name}</div>
-								<div class='name'>{$theme['initials']}</div>
-								<div class='color' style='background-color: {$theme['color']};'></div>	
-							</div> ";
-		}
-	}
-
-	if (empty($dat_act)){
-		#nothing was found
-	} else {
-		foreach ($dat_act as $activite) {
-			$name = str_replace('_', ' ', $activite['name']);
+	if (!empty($data)) {
+		foreach ($data as $ctg) {
+			$name = str_replace('_', ' ', $ctg['name']);
+			$content = "<div class='row zoom'>
+							<div class='name'><span class='del' id='{$ctg['id']}'>X</span> {$name}</div>
+							<div class='name'>{$ctg['initials']}</div>
+							<div class='color' style='background-color: {$ctg['color']};'></div>	
+						</div> ";
 			
-			$act .= "<div class='row zoom'>
-								<div class='name'>{$name}</div>
-								<div class='name'>{$activite['initials']}</div>
-								<div class='color' style='background-color: {$activite['color']};'></div>	
-							</div> ";
+			if ($ctg['type'] == 'theme') {$themes .= $content;}
+			else{$act.= $content;}
 		}
 	}
-
  ?>
 
 <!DOCTYPE html>
@@ -57,26 +39,29 @@
 	</nav>
 	<h1>Gestion des catégories</h1>
 
-	<h2>Thèmes journaliers</h2>
-	<div class="ctn" id="theme">
-		<div class="row title">
-			<div class='name'>Nom</div>
-			<div class='name'>Initiales</div>
-			<div class='color'>Couleur</div>
-		</div>
-		<?= $themes ?>
-	</div>	
+	<section>
+		<h2>Thèmes journaliers</h2>
+		<form class="ctn" id="theme">
+			<div class="row title">
+				<div class='name'>Nom</div>
+				<div class='name ini'>Initiales</div>
+				<div class='color'>Couleur</div>
+			</div>
+			<?= $themes ?>
+		</form>	
+	</section>
 
-	<h2>Activités</h2>
-	<div class="ctn" id="act">
-		<div class="row title">
-			<div class='name'>Nom</div>
-			<div class='name'>Initiales</div>
-			<div class='color'>Couleur</div>
-		</div>
-		<?= $act ?>
-	</div>
-
+	<section>
+		<h2>Activités</h2>
+		<form class="ctn" id="act">
+			<div class="row title">
+				<div class='name'>Nom</div>
+				<div class='name'>Initiales</div>
+				<div class='color'>Couleur</div>
+			</div>
+			<?= $act ?>
+		</form>
+	</section>
 	<br>
 	
 	<footer>

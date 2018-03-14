@@ -28,9 +28,8 @@ h1{
 	border: 1px solid black;
 	border-radius: 3px 3px 0 0;
 	text-align: center;
-	min-width: 800px;
-	width: 85%;
 	display: table;
+	width: 85%;
 }
 
 .row{
@@ -75,10 +74,7 @@ button{
 }
 
 .zoom:hover {
-    transform: scale3d(1.1,1.1,1.1);
-    transition: linear 0.2s;
     box-shadow: 0 0 40px white;
-    border-bottom: 0; 
 }
 
 footer{
@@ -101,9 +97,9 @@ footer{
 		height: 100vh;
 	}
 
-	form{	
+	.add{	
 		min-width: 360px;
-		background-color: white;
+		background-color: #4e4e4e;
 		display: inline-block;
 		padding: 30px;
 		box-shadow: 0 0 15px white;
@@ -140,6 +136,20 @@ footer{
 	    padding: 11px;
 	}
 
+section{
+	width: 45%;
+	display: inline-block;
+}
+
+.del{
+	opacity: 0;
+	float: left;
+	cursor: pointer;
+}
+
+.del:hover{
+	text-shadow: 0 0 3px red;
+}
 
 
 
