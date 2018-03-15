@@ -2,6 +2,11 @@
 	font-family: Arial;
 }
 
+p{
+	text-align: center;
+	font-style: italic;
+}
+
 html{
 	min-height: 100vh;
 	background: url('gestion-wp.jpg');
@@ -87,7 +92,6 @@ footer{
 }
 
 /*AJOUT DE CATEGORIE*/
-
 	.ctn-veil{
 		background-color: #000000aa; 
 		position: fixed;
@@ -124,7 +128,13 @@ footer{
 		border: 1px solid lightgray;
 	}
 
-	input[type=submit]{
+	#edit input[type=submit]{
+		position: relative;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.add input[type=submit]{
 		margin-top: 32px;
 	    position: absolute;
 	    left: 50%;

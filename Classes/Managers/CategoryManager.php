@@ -12,20 +12,26 @@ class CategoryManager extends CoreManager
 		$this->makeStatement($sql, $values);		
 	}
 
-	// public function update(DayEntry $category, $fname){
-	// 	$sql = ('UPDATE categories SET name = :name, type = :type, color = :color WHERE name = :f_name');
-	// 	$values = [	':name' => $category->getName(),
-	// 				':type' => $category->getType(),
-	// 				':color' => $category->getColor(),
-	//				':'];
+	public function update(Category $category){
+		$sql = ('UPDATE categories SET name = :name, initials = :initials, color = :color WHERE id = :id');
+		$values = [	':name' => $category->getName(),
+					":initials" => $category->getInitials(),
+					':color' => $category->getColor(),
+					':id' =>$category->getId()];
 
-	// 	$this->makeStatement($sql, $values);
-	// }
+		$this->makeStatement($sql, $values);
+	}
 
-	public function get($name){
-		$sql = ('SELECT * FROM categories WHERE name = :name ');
-		$values = [":name"=> trim($name)];
-		return new Category($this->makeSingleSelect($sql, $values)); 
+	public function get($val){
+		if (ctype_digit($val) OR is_int($val)) {
+			$sql = ('SELECT * FROM categories WHERE id = :id ');
+			$values = [":id"=> trim($val)];
+			return new Category($this->makeSingleSelect($sql, $values)); 
+		} else{
+			$sql = ('SELECT * FROM categories WHERE name = :name ');
+			$values = [":name"=> trim($val)];
+			return new Category($this->makeSingleSelect($sql, $values)); 			
+		}
 	}
 
 	//Retourne l'alias d'une catégorie

@@ -19,7 +19,7 @@
 	
 	//[UPDATE Entries]
 		foreach ($e_indexes as $index) {
-
+			//Get array : $entries[$id][$attribute] = $value
 			if (!empty($_POST[$index])) {
 				foreach ($_POST[$index] as $key => $value) {
 					$entries[$key][substr($index, 5)] = $value;
@@ -27,7 +27,7 @@
 			}
 		}
 
-
+		//Modification des attributs de l'entrée
 		foreach ($entries as $key => $data) {
 			//Récupère l'entrée à modifier
 			$entry = $em->get($key);

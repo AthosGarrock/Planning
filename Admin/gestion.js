@@ -9,10 +9,10 @@
 			entries.remove();	
 				dP.forEach(function(ctg){
 					let ctn = $('<div class="row zoom"></div>');
-					ctn.append('<div class="name"><span class="del" id="'+ctg.id+'">X</span>'+ctg.name.replace(/_/g, ' ')+'</div>');
-					ctn.append('<div class="name ini">'+ctg.initials+'</div>');
+					ctn.append('<div class="name" data-id='+ctg.id+'><span class="del" id="'+ctg.id+'">X</span>'+ctg.name.replace(/_/g, ' ')+'</div>');
+					ctn.append('<div class="name ini" data-id='+ctg.id+'>'+ctg.initials+'</div>');
 
-					let color = $('<div class="color"></div>');
+					let color = $('<div class="color" data-id='+ctg.id+'></div>');
 					color.css('backgroundColor', ctg.color);
 					ctn.append(color);
 
@@ -23,6 +23,36 @@
 					}
 				})
 		}
+
+	//[EDIT - Modifier]
+		let editForm = $('#edit');
+
+		function editClick(){
+		 	let data = $('.name').not('.title > *');
+		 	data.click(function(event) {
+		 		let id = $(this).attr('data-id');
+
+		 		if(!$(this).hasClass('ini')){
+		 		 	$(this).replaceWith('<div><span class="del" id="'+id+'">X</span><input type="text" name="e_name['+id+']"></div>');
+		 		 	delClick();
+		 		} else{
+		 			$(this).replaceWith('<div><input type="text" name="e_initials['+id+']" size="5" maxlength="5"></div>');
+		 		}
+		 	});
+
+		 	//Envoi des données
+		 	editForm.submit(function(event) {
+		 		event.preventDefault();
+		 		$.post('processCategory.php', $(this).serialize(), function(dPost){
+		 			let dP = JSON.parse(dPost);
+		 			actualize(entries, dP);
+		 			editClick();
+		 			delClick();
+		 		});
+		 	});
+	 	}
+ 		editClick();
+
 
 	//DELETE ENTRY
 		function delClick(){
@@ -36,6 +66,7 @@
 				});
 			//Actual delete event
 				$('.del').click(function(event) {
+					event.stopPropagation();
 					if(window.confirm("Voulez-vous vraiment effacer la catégorie"+$(this).parent().text())){
 						//Get the id of category you want to delete
 						let del_id = $(this).attr('id');
@@ -45,12 +76,14 @@
 							actualize(entries, dPost);
 						}).done(function(){
 							delClick();
+							editClick();
 						})
 					}
-		});
+			});
 		}
-
 		delClick();
+
+
 
 //[ADD - Ajout]Affiche un formulaire d'insertion.
 	btn.addEventListener('click', function(e){
@@ -71,7 +104,7 @@
 			let fieldArray = [nameF, iniF, typeF, colorF];
 
 			nameF.innerHTML = '<label>Nom : </label><input type="text" name="name" required><br>';
-			iniF.innerHTML = '<label>Initiales : </label><input type="text" name="ini" required><br>';
+			iniF.innerHTML = '<label>Initiales : </label><input type="text" name="ini" size="5" maxlength="5" required><br>';
 			typeF.innerHTML = '<label>Type : </label><select name="type" required><option value="theme">Thème</option><option value="activite">Activité</option></select><br>';
 			colorF.innerHTML = '<label>Couleur : </label><input type="color" name="color" required><br>';
 
@@ -88,6 +121,7 @@
 		//Submit button and related submit code.
 			let submit = document.createElement('input');
 			submit.setAttribute("type", "submit");
+			submit.setAttribute("name", "add");
 
 			
 			$(form).submit(function(e){
@@ -96,10 +130,13 @@
 				let data = $(form).serialize();
 
 				$.post('processCategory.php', data, function(dPost){
+					console.log(data);
+					console.log(dPost);
 					let dP = JSON.parse(dPost);
 					actualize(entries, dP);
 				}).done(function(){
 					delClick();
+					editClick();
 				});
 			})
 
@@ -119,9 +156,3 @@
 	})
 
 
-//[EDIT - Modifier]
- 	let data = $('.name');
-
- 	data.click(function(event) {
- 		$(this).replaceWith('<div><input type="text"></div>');
- 	});
